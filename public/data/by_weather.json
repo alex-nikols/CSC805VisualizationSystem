@@ -1,0 +1,68 @@
+{
+  "visibility": [
+    {
+      "label": "< 1 mi",
+      "count": 27885,
+      "percentage": 1.6
+    },
+    {
+      "label": "1-5 mi",
+      "count": 103347,
+      "percentage": 6.0
+    },
+    {
+      "label": "5-10 mi",
+      "count": 151893,
+      "percentage": 8.8
+    },
+    {
+      "label": "10+ mi",
+      "count": 1437374,
+      "percentage": 83.5
+    }
+  ],
+  "windSpeed": [
+    {
+      "label": "Calm (< 5 mph)",
+      "count": 434906,
+      "percentage": 25.4
+    },
+    {
+      "label": "Light (5-15 mph)",
+      "count": 1088660,
+      "percentage": 63.5
+    },
+    {
+      "label": "Moderate (15-25 mph)",
+      "count": 178915,
+      "percentage": 10.4
+    },
+    {
+      "label": "Strong (25+ mph)",
+      "count": 11594,
+      "percentage": 0.7
+    }
+  ],
+  "precipitation": [
+    {
+      "label": "None (0 in)",
+      "count": 1583839,
+      "percentage": 93.3
+    },
+    {
+      "label": "Light (< 0.1 in)",
+      "count": 87692,
+      "percentage": 5.2
+    },
+    {
+      "label": "Moderate (0.1-0.5 in)",
+      "count": 23821,
+      "percentage": 1.4
+    },
+    {
+      "label": "Heavy (0.5+ in)",
+      "count": 2625,
+      "percentage": 0.2
+    }
+  ]
+}

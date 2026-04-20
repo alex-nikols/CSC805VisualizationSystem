@@ -1,0 +1,252 @@
+[
+  {
+    "state": "AL",
+    "count": 20054,
+    "dangerScore": 2.13
+  },
+  {
+    "state": "AR",
+    "count": 9432,
+    "dangerScore": 2.25
+  },
+  {
+    "state": "AZ",
+    "count": 39423,
+    "dangerScore": 2.05
+  },
+  {
+    "state": "CA",
+    "count": 375913,
+    "dangerScore": 2.04
+  },
+  {
+    "state": "CO",
+    "count": 20930,
+    "dangerScore": 2.28
+  },
+  {
+    "state": "CT",
+    "count": 20171,
+    "dangerScore": 2.16
+  },
+  {
+    "state": "DC",
+    "count": 6959,
+    "dangerScore": 2.01
+  },
+  {
+    "state": "DE",
+    "count": 3088,
+    "dangerScore": 2.17
+  },
+  {
+    "state": "FL",
+    "count": 263119,
+    "dangerScore": 2.02
+  },
+  {
+    "state": "GA",
+    "count": 33129,
+    "dangerScore": 2.26
+  },
+  {
+    "state": "IA",
+    "count": 4891,
+    "dangerScore": 2.18
+  },
+  {
+    "state": "ID",
+    "count": 2264,
+    "dangerScore": 2.02
+  },
+  {
+    "state": "IL",
+    "count": 24610,
+    "dangerScore": 2.16
+  },
+  {
+    "state": "IN",
+    "count": 14499,
+    "dangerScore": 2.26
+  },
+  {
+    "state": "KS",
+    "count": 6525,
+    "dangerScore": 2.1
+  },
+  {
+    "state": "KY",
+    "count": 2713,
+    "dangerScore": 2.29
+  },
+  {
+    "state": "LA",
+    "count": 33770,
+    "dangerScore": 2.02
+  },
+  {
+    "state": "MA",
+    "count": 6281,
+    "dangerScore": 1.96
+  },
+  {
+    "state": "MD",
+    "count": 37379,
+    "dangerScore": 2.14
+  },
+  {
+    "state": "ME",
+    "count": 109,
+    "dangerScore": 2.69
+  },
+  {
+    "state": "MI",
+    "count": 28975,
+    "dangerScore": 2.11
+  },
+  {
+    "state": "MN",
+    "count": 38354,
+    "dangerScore": 2.0
+  },
+  {
+    "state": "MO",
+    "count": 19841,
+    "dangerScore": 2.15
+  },
+  {
+    "state": "MS",
+    "count": 3483,
+    "dangerScore": 2.21
+  },
+  {
+    "state": "MT",
+    "count": 14072,
+    "dangerScore": 2.03
+  },
+  {
+    "state": "NC",
+    "count": 72167,
+    "dangerScore": 2.08
+  },
+  {
+    "state": "ND",
+    "count": 1288,
+    "dangerScore": 2.01
+  },
+  {
+    "state": "NE",
+    "count": 1478,
+    "dangerScore": 2.16
+  },
+  {
+    "state": "NH",
+    "count": 508,
+    "dangerScore": 2.23
+  },
+  {
+    "state": "NJ",
+    "count": 42244,
+    "dangerScore": 2.08
+  },
+  {
+    "state": "NM",
+    "count": 1413,
+    "dangerScore": 2.22
+  },
+  {
+    "state": "NV",
+    "count": 4286,
+    "dangerScore": 2.04
+  },
+  {
+    "state": "NY",
+    "count": 94765,
+    "dangerScore": 2.06
+  },
+  {
+    "state": "OH",
+    "count": 25746,
+    "dangerScore": 2.15
+  },
+  {
+    "state": "OK",
+    "count": 8969,
+    "dangerScore": 1.88
+  },
+  {
+    "state": "OR",
+    "count": 30127,
+    "dangerScore": 2.08
+  },
+  {
+    "state": "PA",
+    "count": 80839,
+    "dangerScore": 2.12
+  },
+  {
+    "state": "RI",
+    "count": 1601,
+    "dangerScore": 2.22
+  },
+  {
+    "state": "SC",
+    "count": 84880,
+    "dangerScore": 1.97
+  },
+  {
+    "state": "SD",
+    "count": 37,
+    "dangerScore": 2.76
+  },
+  {
+    "state": "State",
+    "count": 1,
+    "dangerScore": 0.0
+  },
+  {
+    "state": "TN",
+    "count": 38910,
+    "dangerScore": 2.07
+  },
+  {
+    "state": "TX",
+    "count": 95509,
+    "dangerScore": 2.09
+  },
+  {
+    "state": "UT",
+    "count": 17439,
+    "dangerScore": 2.05
+  },
+  {
+    "state": "VA",
+    "count": 99311,
+    "dangerScore": 2.14
+  },
+  {
+    "state": "VT",
+    "count": 38,
+    "dangerScore": 2.47
+  },
+  {
+    "state": "WA",
+    "count": 15416,
+    "dangerScore": 2.14
+  },
+  {
+    "state": "WI",
+    "count": 8078,
+    "dangerScore": 2.16
+  },
+  {
+    "state": "WV",
+    "count": 5344,
+    "dangerScore": 2.05
+  },
+  {
+    "state": "WY",
+    "count": 2075,
+    "dangerScore": 2.2
+  }
+]

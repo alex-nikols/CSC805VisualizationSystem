@@ -1,0 +1,302 @@
+[
+  {
+    "county": "Buckingham",
+    "state": "VA",
+    "score": 2.78,
+    "count": 112
+  },
+  {
+    "county": "Patrick",
+    "state": "VA",
+    "score": 2.73,
+    "count": 117
+  },
+  {
+    "county": "Page",
+    "state": "VA",
+    "score": 2.72,
+    "count": 294
+  },
+  {
+    "county": "Lincoln",
+    "state": "CO",
+    "score": 2.71,
+    "count": 118
+  },
+  {
+    "county": "Oswego",
+    "state": "NY",
+    "score": 2.66,
+    "count": 145
+  },
+  {
+    "county": "Spencer",
+    "state": "IN",
+    "score": 2.66,
+    "count": 143
+  },
+  {
+    "county": "Halifax",
+    "state": "VA",
+    "score": 2.63,
+    "count": 150
+  },
+  {
+    "county": "Teller",
+    "state": "CO",
+    "score": 2.63,
+    "count": 126
+  },
+  {
+    "county": "Indiana",
+    "state": "PA",
+    "score": 2.63,
+    "count": 171
+  },
+  {
+    "county": "Bedford",
+    "state": "VA",
+    "score": 2.62,
+    "count": 252
+  },
+  {
+    "county": "Sussex",
+    "state": "DE",
+    "score": 2.61,
+    "count": 391
+  },
+  {
+    "county": "Fluvanna",
+    "state": "VA",
+    "score": 2.61,
+    "count": 115
+  },
+  {
+    "county": "Jefferson",
+    "state": "KY",
+    "score": 2.6,
+    "count": 876
+  },
+  {
+    "county": "Morgan",
+    "state": "CO",
+    "score": 2.6,
+    "count": 130
+  },
+  {
+    "county": "Tazewell",
+    "state": "VA",
+    "score": 2.58,
+    "count": 104
+  },
+  {
+    "county": "Montgomery",
+    "state": "IN",
+    "score": 2.58,
+    "count": 110
+  },
+  {
+    "county": "Henry",
+    "state": "VA",
+    "score": 2.56,
+    "count": 340
+  },
+  {
+    "county": "Delaware",
+    "state": "IN",
+    "score": 2.56,
+    "count": 126
+  },
+  {
+    "county": "Bedford County",
+    "state": "VA",
+    "score": 2.55,
+    "count": 255
+  },
+  {
+    "county": "Columbus",
+    "state": "NC",
+    "score": 2.55,
+    "count": 110
+  },
+  {
+    "county": "Venango",
+    "state": "PA",
+    "score": 2.55,
+    "count": 119
+  },
+  {
+    "county": "Otero",
+    "state": "CO",
+    "score": 2.55,
+    "count": 123
+  },
+  {
+    "county": "Fayette",
+    "state": "PA",
+    "score": 2.54,
+    "count": 203
+  },
+  {
+    "county": "Randolph",
+    "state": "NC",
+    "score": 2.54,
+    "count": 301
+  },
+  {
+    "county": "Scott",
+    "state": "IN",
+    "score": 2.54,
+    "count": 147
+  },
+  {
+    "county": "Franklin",
+    "state": "VA",
+    "score": 2.53,
+    "count": 167
+  },
+  {
+    "county": "Mercer",
+    "state": "PA",
+    "score": 2.53,
+    "count": 181
+  },
+  {
+    "county": "Moore",
+    "state": "NC",
+    "score": 2.53,
+    "count": 106
+  },
+  {
+    "county": "Morgan",
+    "state": "GA",
+    "score": 2.52,
+    "count": 141
+  },
+  {
+    "county": "Walton",
+    "state": "GA",
+    "score": 2.52,
+    "count": 212
+  },
+  {
+    "county": "Northumberland",
+    "state": "VA",
+    "score": 2.52,
+    "count": 210
+  },
+  {
+    "county": "Wilkes",
+    "state": "NC",
+    "score": 2.52,
+    "count": 107
+  },
+  {
+    "county": "Northwest Hills",
+    "state": "CT",
+    "score": 2.52,
+    "count": 217
+  },
+  {
+    "county": "Park",
+    "state": "CO",
+    "score": 2.51,
+    "count": 401
+  },
+  {
+    "county": "Fremont",
+    "state": "CO",
+    "score": 2.5,
+    "count": 256
+  },
+  {
+    "county": "Eaton",
+    "state": "MI",
+    "score": 2.49,
+    "count": 194
+  },
+  {
+    "county": "Madison",
+    "state": "IL",
+    "score": 2.49,
+    "count": 268
+  },
+  {
+    "county": "Allen",
+    "state": "IN",
+    "score": 2.49,
+    "count": 378
+  },
+  {
+    "county": "Pittsylvania",
+    "state": "VA",
+    "score": 2.49,
+    "count": 279
+  },
+  {
+    "county": "Dorchester",
+    "state": "MD",
+    "score": 2.49,
+    "count": 131
+  },
+  {
+    "county": "Meriwether",
+    "state": "GA",
+    "score": 2.49,
+    "count": 152
+  },
+  {
+    "county": "Charles City",
+    "state": "VA",
+    "score": 2.49,
+    "count": 147
+  },
+  {
+    "county": "Merrimack",
+    "state": "NH",
+    "score": 2.48,
+    "count": 144
+  },
+  {
+    "county": "Caldwell",
+    "state": "NC",
+    "score": 2.48,
+    "count": 121
+  },
+  {
+    "county": "Craighead",
+    "state": "AR",
+    "score": 2.48,
+    "count": 116
+  },
+  {
+    "county": "Jefferson",
+    "state": "AR",
+    "score": 2.48,
+    "count": 229
+  },
+  {
+    "county": "Northeastern Connecticut",
+    "state": "CT",
+    "score": 2.47,
+    "count": 163
+  },
+  {
+    "county": "Houston",
+    "state": "GA",
+    "score": 2.47,
+    "count": 385
+  },
+  {
+    "county": "Bradford",
+    "state": "PA",
+    "score": 2.47,
+    "count": 176
+  },
+  {
+    "county": "St. Tammany",
+    "state": "LA",
+    "score": 2.46,
+    "count": 156
+  }
+]
