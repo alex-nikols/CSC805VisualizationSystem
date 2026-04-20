@@ -176,6 +176,145 @@ function FilterSidebar({ filters, onFilterChange, collapsed, onToggle }) {
   )
 }
 
+function DetailPanel({ accident, onClose }) {
+  if (!accident) {
+    return (
+      <div
+        className="absolute top-0 right-0 z-[1000] h-full flex"
+        style={{ pointerEvents: 'none' }}
+      >
+        <div
+          className="bg-white shadow-lg w-[320px] flex items-center justify-center p-6"
+          style={{ pointerEvents: 'auto' }}
+        >
+          <div className="text-center text-gray-400">
+            <svg className="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+            </svg>
+            <p className="text-sm">Click on an accident marker to view details</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const date = parseDate(accident.startTime)
+  const formattedDate = date
+    ? date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })
+    : 'Unknown'
+  const formattedTime = date
+    ? date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+    : ''
+
+  return (
+    <div
+      className="absolute top-0 right-0 z-[1000] h-full flex"
+      style={{ pointerEvents: 'none' }}
+    >
+      <div
+        className="bg-white shadow-lg w-[320px] flex flex-col h-full overflow-y-auto"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Accident Details</h2>
+            <button
+              onClick={onClose}
+              className="p-1 hover:bg-gray-100 rounded text-gray-500"
+              title="Close panel"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Location */}
+          <div className="mb-4">
+            <p className="text-sm font-medium text-gray-900">
+              {accident.street || 'Unknown Street'}
+            </p>
+            <p className="text-sm text-gray-500">
+              {accident.city}, {accident.state}
+            </p>
+          </div>
+
+          {/* Date & Time */}
+          <div className="mb-4">
+            <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Date & Time</h3>
+            <p className="text-sm text-gray-900">{formattedDate}</p>
+            {formattedTime && <p className="text-sm text-gray-600">{formattedTime}</p>}
+          </div>
+
+          {/* Severity */}
+          <div className="mb-4">
+            <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Severity</h3>
+            <span
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-sm font-medium text-white"
+              style={{ background: SEVERITY_COLORS[accident.severity] }}
+            >
+              <span className="w-2 h-2 rounded-full bg-white/40" />
+              Level {accident.severity} — {SEVERITY_LABELS[accident.severity]}
+            </span>
+          </div>
+
+          {/* Distance */}
+          {accident.distance != null && (
+            <div className="mb-4">
+              <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Distance (mi)</h3>
+              <p className="text-sm text-gray-900">{Number(accident.distance).toFixed(2)}</p>
+            </div>
+          )}
+
+          {/* Description */}
+          {accident.description && (
+            <div className="mb-4">
+              <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Description</h3>
+              <p className="text-sm text-gray-700 leading-relaxed">{accident.description}</p>
+            </div>
+          )}
+
+          {/* Weather Info */}
+          <div className="border-t border-gray-200 pt-4 mt-2">
+            <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Weather Conditions</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-lg p-3">
+                <p className="text-xs text-gray-500">Temperature</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {accident.temperature != null ? `${accident.temperature}°F` : 'N/A'}
+                </p>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-3">
+                <p className="text-xs text-gray-500">Humidity</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {accident.humidity != null ? `${accident.humidity}%` : 'N/A'}
+                </p>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-3">
+                <p className="text-xs text-gray-500">Visibility</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {accident.visibility != null ? `${accident.visibility} mi` : 'N/A'}
+                </p>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-3">
+                <p className="text-xs text-gray-500">Wind Speed</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {accident.windSpeed != null ? `${accident.windSpeed} mph` : 'N/A'}
+                </p>
+              </div>
+            </div>
+            {accident.weatherCondition && (
+              <p className="mt-3 text-sm text-gray-600">
+                <span className="text-gray-500">Condition:</span> {accident.weatherCondition}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function matchesFilters(data, filters) {
   // Severity filter
   if (!filters.severity.includes(data.severity)) return false
@@ -211,6 +350,8 @@ export default function Explorer() {
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState({ loaded: 0, total: 0 })
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [selectedAccident, setSelectedAccident] = useState(null)
+  const [detailPanelOpen, setDetailPanelOpen] = useState(true)
   const [filters, setFilters] = useState({
     startDate: '',
     endDate: '',
@@ -271,14 +412,10 @@ export default function Explorer() {
             icon: createCircleIcon(r.severity),
           })
           marker.accidentData = r
-          marker.bindPopup(
-            `<div style="min-width:200px">
-              <strong>${r.street || 'Unknown'}, ${r.city}, ${r.state}</strong><br/>
-              <span style="color:${SEVERITY_COLORS[r.severity]}; font-weight:600;">Severity ${r.severity}</span><br/>
-              <span style="font-size:12px; color:#666;">${r.startTime}</span><br/>
-              <span style="font-size:12px;">${r.description || ''}</span>
-            </div>`
-          )
+          marker.on('click', () => {
+            setSelectedAccident(r)
+            setDetailPanelOpen(true)
+          })
           return marker
         })
 
@@ -322,6 +459,16 @@ export default function Explorer() {
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed((c) => !c)}
       />
+
+      {detailPanelOpen && (
+        <DetailPanel
+          accident={selectedAccident}
+          onClose={() => {
+            setDetailPanelOpen(false)
+            setSelectedAccident(null)
+          }}
+        />
+      )}
 
       {loading && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-white rounded-lg shadow-lg px-6 py-3 flex items-center gap-3">
