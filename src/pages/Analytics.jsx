@@ -2,6 +2,7 @@ import KpiCards from '../components/analytics/KpiCards'
 import AccidentsOverTime from '../components/analytics/AccidentsOverTime'
 import SeverityDistribution from '../components/analytics/SeverityDistribution'
 import TopCounties from '../components/analytics/TopCounties'
+import WeatherConditions from '../components/analytics/WeatherConditions'
 
 export default function Analytics() {
   return (
@@ -10,6 +11,7 @@ export default function Analytics() {
       <AccidentsOverTime />
       <SeverityDistribution />
       <TopCounties />
+      <WeatherConditions />
     </div>
   )
 }
