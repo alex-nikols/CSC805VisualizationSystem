@@ -3,6 +3,7 @@ import AccidentsOverTime from '../components/analytics/AccidentsOverTime'
 import SeverityDistribution from '../components/analytics/SeverityDistribution'
 import TopCounties from '../components/analytics/TopCounties'
 import WeatherConditions from '../components/analytics/WeatherConditions'
+import DayHourHeatmap from '../components/analytics/DayHourHeatmap'
 
 export default function Analytics() {
   return (
@@ -12,6 +13,7 @@ export default function Analytics() {
       <SeverityDistribution />
       <TopCounties />
       <WeatherConditions />
+      <DayHourHeatmap />
     </div>
   )
 }
