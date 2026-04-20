@@ -1,0 +1,9 @@
+{
+  "totalAccidents": 1762453,
+  "avgDangerScore": 2.07,
+  "mostDangerousCounty": {
+    "name": "Buckingham, VA",
+    "score": 2.78
+  },
+  "peakHour": 16
+}

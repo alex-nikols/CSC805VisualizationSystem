@@ -1,0 +1,18 @@
+[
+  {
+    "severity": 1,
+    "count": 37875
+  },
+  {
+    "severity": 2,
+    "count": 1603346
+  },
+  {
+    "severity": 3,
+    "count": 77957
+  },
+  {
+    "severity": 4,
+    "count": 43274
+  }
+]
