@@ -6,7 +6,9 @@ Reads all 4 CSV parts from US_Accidents_Full2022_parts/ and outputs JSON to publ
 
 import csv
 import json
+import math
 import os
+import random
 from collections import defaultdict
 from pathlib import Path
 
@@ -35,7 +37,11 @@ COL_WEATHER_CONDITION = 28
 
 DATA_DIR = Path("US_Accidents_Full2022_parts")
 OUTPUT_DIR = Path("public/data")
+MAP_DIR = OUTPUT_DIR / "map"
 CSV_FILES = sorted(DATA_DIR.glob("US_Accidents_Full2022_*.csv"))
+
+MAP_SAMPLE_PER_SEVERITY = 12500  # ~50K total across 4 severity levels
+MAP_CHUNK_TARGET_BYTES = 1_500_000  # ~1.5MB per chunk
 
 MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -67,6 +73,8 @@ def safe_int(val, default=0):
 
 def safe_float(val, default=0.0):
     try:
+        if val is None or (isinstance(val, str) and val.strip() == ""):
+            return default
         return float(val)
     except (ValueError, TypeError):
         return default
@@ -90,6 +98,11 @@ def main():
     visibility_buckets = defaultdict(int)
     wind_speed_buckets = defaultdict(int)
     precipitation_buckets = defaultdict(int)
+
+    # Map sample: reservoir sampling per severity level
+    map_reservoirs = {s: [] for s in range(1, 5)}  # severity 1-4
+    map_seen = defaultdict(int)  # count per severity for reservoir sampling
+    random.seed(42)  # reproducible sampling
 
     print("Reading CSV files...")
     for csv_file in CSV_FILES:
@@ -161,6 +174,37 @@ def main():
                         precipitation_buckets["Moderate (0.1-0.5 in)"] += 1
                     else:
                         precipitation_buckets["Heavy (0.5+ in)"] += 1
+
+                # Map sampling: reservoir sample per severity level
+                if 1 <= severity <= 4:
+                    lat = safe_float(row[COL_START_LAT], default=0)
+                    lng = safe_float(row[COL_START_LNG], default=0)
+                    if lat != 0 and lng != 0:
+                        record = {
+                            "id": row[COL_ID],
+                            "lat": round(lat, 5),
+                            "lng": round(lng, 5),
+                            "severity": severity,
+                            "startTime": row[COL_START_TIME].strip(),
+                            "weatherCondition": row[COL_WEATHER_CONDITION].strip(),
+                            "temperature": safe_float(row[COL_TEMPERATURE], default=None),
+                            "humidity": safe_float(row[COL_HUMIDITY], default=None),
+                            "visibility": safe_float(row[COL_VISIBILITY], default=None),
+                            "windSpeed": safe_float(row[COL_WIND_SPEED], default=None),
+                            "description": row[COL_DESCRIPTION].strip()[:200],
+                            "street": row[COL_STREET].strip(),
+                            "city": row[COL_CITY].strip(),
+                            "state": state,
+                            "distance": safe_float(row[COL_DISTANCE], default=0)
+                        }
+                        map_seen[severity] += 1
+                        n = map_seen[severity]
+                        if n <= MAP_SAMPLE_PER_SEVERITY:
+                            map_reservoirs[severity].append(record)
+                        else:
+                            j = random.randint(1, n)
+                            if j <= MAP_SAMPLE_PER_SEVERITY:
+                                map_reservoirs[severity][j - 1] = record
 
     print(f"Total accidents processed: {total_accidents}")
 
@@ -262,6 +306,42 @@ def main():
             "count": t,
             "dangerScore": round(score, 2)
         })
+
+    # --- Map chunks ---
+    os.makedirs(MAP_DIR, exist_ok=True)
+    # Combine all severity reservoirs and shuffle
+    all_map_records = []
+    for s in range(1, 5):
+        all_map_records.extend(map_reservoirs[s])
+        print(f"  Map samples severity {s}: {len(map_reservoirs[s])}")
+    random.shuffle(all_map_records)
+    total_map = len(all_map_records)
+    print(f"  Total map samples: {total_map}")
+
+    # Estimate records per chunk based on average record size
+    sample_json = json.dumps(all_map_records[:100])
+    avg_record_bytes = len(sample_json.encode("utf-8")) / min(100, len(all_map_records))
+    records_per_chunk = max(1, int(MAP_CHUNK_TARGET_BYTES / avg_record_bytes))
+
+    chunk_files = []
+    for i in range(0, total_map, records_per_chunk):
+        chunk_data = all_map_records[i:i + records_per_chunk]
+        chunk_name = f"chunk_{len(chunk_files)}.json"
+        chunk_path = MAP_DIR / chunk_name
+        with open(chunk_path, "w") as f:
+            json.dump(chunk_data, f)
+        size_mb = os.path.getsize(chunk_path) / (1024 * 1024)
+        chunk_files.append(chunk_name)
+        print(f"  Written {chunk_name} ({size_mb:.2f} MB, {len(chunk_data)} records)")
+
+    manifest = {
+        "totalRecords": total_map,
+        "chunks": chunk_files
+    }
+    manifest_path = MAP_DIR / "manifest.json"
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)
+    print(f"  Written manifest.json ({len(chunk_files)} chunks, {total_map} records)")
 
     # Write outputs
     for filename, data in [
