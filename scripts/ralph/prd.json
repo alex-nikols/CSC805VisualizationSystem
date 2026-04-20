@@ -1,0 +1,322 @@
+{
+  "project": "US Accidents Visualization",
+  "branchName": "ralph/us-accidents-viz",
+  "description": "Interactive data visualization website for US traffic accidents (2016-2023) using React + Vite, D3.js, Leaflet.js, and Tailwind CSS. Pre-processes ~1.76M CSV records into static JSON for a two-page app: Explorer (interactive map) and Analytics (dashboard).",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Data preprocessing script — summary, yearly, severity, and monthly JSON",
+      "description": "As a developer, I need a Python script that reads all 4 CSV files and generates aggregated JSON files for the Analytics dashboard KPIs and basic charts.",
+      "acceptanceCriteria": [
+        "Python script `preprocess.py` reads all 4 CSVs from `US_Accidents_Full2022_parts/`",
+        "Outputs `public/data/summary.json` with: totalAccidents, avgDangerScore, mostDangerousCounty (name + score), peakHour",
+        "Outputs `public/data/by_year.json` with accident counts grouped by year (2016-2023)",
+        "Outputs `public/data/by_severity.json` with accident counts grouped by severity level (1-4)",
+        "Outputs `public/data/by_month.json` with accident counts aggregated by month (Jan-Dec) across all years",
+        "Danger score formula: (S1*N1 + S2*N2 + S3*N3 + S4*N4) / T",
+        "Script runs successfully: `python preprocess.py`",
+        "All output JSON files are under 5MB each"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Data preprocessing script — county danger, weather, day-hour, and state JSON",
+      "description": "As a developer, I need additional aggregated JSON files for the remaining Analytics charts and Explorer map data.",
+      "acceptanceCriteria": [
+        "Outputs `public/data/by_county_danger.json` with top 50 counties ranked by danger score, each with county name, state, score, and accident count",
+        "Outputs `public/data/by_weather.json` with weather condition distribution: visibility buckets, wind speed buckets, precipitation buckets with counts and percentages",
+        "Outputs `public/data/by_day_hour.json` with 7x24 matrix (day-of-week x hour-of-day) of accident counts",
+        "Outputs `public/data/by_state.json` with per-state accident counts and danger scores",
+        "Script runs successfully: `python preprocess.py`",
+        "All output JSON files are under 5MB each"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Extends the preprocess.py from US-001"
+    },
+    {
+      "id": "US-003",
+      "title": "Data preprocessing — chunked map sample data",
+      "description": "As a developer, I need sampled accident data split into chunks for the Explorer map so data loads progressively with a loading indicator.",
+      "acceptanceCriteria": [
+        "Outputs multiple chunk files in `public/data/map/` (e.g., chunk_0.json, chunk_1.json, ...) each ~1-2MB",
+        "Each record includes: id, lat, lng, severity, startTime, weatherCondition, temperature, humidity, visibility, windSpeed, description, street, city, state, distance",
+        "Outputs `public/data/map/manifest.json` listing all chunk filenames and total record count",
+        "Total sampled records ~50K, evenly distributed across severity levels and states",
+        "Script runs successfully: `python preprocess.py`"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Chunks enable progressive loading on the Explorer map"
+    },
+    {
+      "id": "US-004",
+      "title": "React + Vite project scaffolding with Tailwind CSS",
+      "description": "As a developer, I need the project initialized with React, Vite, Tailwind CSS, React Router, and all dependencies installed.",
+      "acceptanceCriteria": [
+        "React + Vite project created in project root with JSX support",
+        "Tailwind CSS v3+ configured and working",
+        "React Router v6 installed and configured with routes: / (redirects to /explorer), /explorer, /analytics, /about",
+        "D3.js, Leaflet, leaflet.markercluster dependencies installed",
+        "App runs with `npm run dev` and shows a placeholder page",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Navigation bar and page layout",
+      "description": "As a user, I want a top navigation bar to switch between Explorer, Analytics, and About pages.",
+      "acceptanceCriteria": [
+        "Top nav bar with site title 'US Accidents Visualization' and subtitle 'CSC 805 Data Visualization Project' on the left",
+        "Navigation links on the right: Explorer, Analytics, About",
+        "Active page button is filled dark (e.g., Analytics has dark background with white text), inactive buttons are outline/text style",
+        "Clicking nav links switches pages without full reload via React Router",
+        "Layout component wraps all pages with the navbar",
+        "Matches Figma header design",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Analytics page — KPI summary cards",
+      "description": "As a user, I want to see 4 key statistics cards at the top of the Analytics dashboard.",
+      "acceptanceCriteria": [
+        "Analytics page renders at /analytics route",
+        "4 cards in a horizontal row: Total Accidents, Avg Danger Score, Most Dangerous County, Peak Hour",
+        "Each card shows: icon, label, large bold value, and gray subtitle text",
+        "Data fetched from `public/data/summary.json` on mount",
+        "Loading state shown while data is being fetched",
+        "Cards match Figma design (white background, subtle border/shadow, rounded corners)",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Analytics page — Accidents Over Time bar chart",
+      "description": "As a user, I want a D3.js bar chart showing yearly accident counts to understand trends.",
+      "acceptanceCriteria": [
+        "D3.js bar chart in a white card on the Analytics page",
+        "X-axis: years (2016-2023), Y-axis: accident count (formatted as K/M)",
+        "Bars are blue/steel color",
+        "Growth badge in top-right corner showing percentage change from first to last year",
+        "Chart title: 'Accidents Over Time', subtitle: 'Yearly trend 2016-2023'",
+        "Data loaded from `public/data/by_year.json`",
+        "Chart resizes properly with container using useRef + useEffect pattern",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Analytics page — Severity Distribution donut chart",
+      "description": "As a user, I want a donut chart showing the distribution of accident severity levels.",
+      "acceptanceCriteria": [
+        "D3.js donut chart in a white card on the Analytics page",
+        "4 segments with colors: S1 Minor (green), S2 Moderate (yellow/orange), S3 Serious (orange/red), S4 Fatal (dark red)",
+        "Legend below chart showing severity label, color swatch, and percentage for each level",
+        "Chart title: 'Severity Distribution', subtitle: 'Across all recorded accidents'",
+        "Data loaded from `public/data/by_severity.json`",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Analytics page — Top 10 Counties by Danger Score",
+      "description": "As a user, I want a ranked list of the most dangerous counties with horizontal bar indicators.",
+      "acceptanceCriteria": [
+        "Ranked list (1-10) in a white card showing county name and state abbreviation",
+        "Each row has a horizontal red bar proportional to the danger score (max bar = highest score)",
+        "Danger score value displayed to the right of the bar",
+        "External link icon next to each score (links to Explorer page filtered to that county)",
+        "Chart title: 'Top 10 Counties by Danger Score', subtitle: 'Click to view on map'",
+        "Data loaded from `public/data/by_county_danger.json`",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Clicking a county navigates to Explorer filtered to that county"
+    },
+    {
+      "id": "US-010",
+      "title": "Analytics page — Weather Conditions horizontal bars",
+      "description": "As a user, I want to see weather condition distribution as horizontal bars.",
+      "acceptanceCriteria": [
+        "Horizontal bar chart in a white card with 3 categories: Visibility, Wind Speed, Precipitation",
+        "Each bar shows absolute count and percentage",
+        "Color-coded: teal for visibility, blue for wind speed, dark blue for precipitation",
+        "Chart title: 'Weather Conditions', subtitle: 'Accident distribution by weather at time of incident'",
+        "Data loaded from `public/data/by_weather.json`",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Analytics page — Accident Heatmap by Day & Hour",
+      "description": "As a user, I want a heatmap showing accident density by day of week and hour of day.",
+      "acceptanceCriteria": [
+        "D3.js heatmap grid in a white card: 7 rows (Mon-Sun) x 24 columns (12a-11p)",
+        "Color scale from light yellow (fewer accidents) to dark red/orange (more accidents)",
+        "Color legend at bottom showing gradient from 'Less' to 'More'",
+        "Chart title: 'Accident Heatmap by Day & Hour', subtitle: 'Intensity shows accident density — darker = more accidents'",
+        "Data loaded from `public/data/by_day_hour.json`",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Analytics page — Monthly Accident Trend line/area chart",
+      "description": "As a user, I want a line chart showing monthly accident trends to identify seasonal patterns.",
+      "acceptanceCriteria": [
+        "D3.js line chart with light blue area fill under the line, in a white card",
+        "X-axis: month names (Jan-Dec), Y-axis: accident count",
+        "Peak month annotated with a badge (e.g., 'Peak: December')",
+        "Chart title: 'Monthly Accident Trend', subtitle: 'Aggregated across all years — seasonal patterns'",
+        "Data loaded from `public/data/by_month.json`",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-013",
+      "title": "Analytics page — responsive grid layout",
+      "description": "As a user, I want all Analytics charts arranged in a clean grid layout matching the Figma design.",
+      "acceptanceCriteria": [
+        "KPI cards row at top (4 columns)",
+        "Second row: Accidents Over Time (left, wider) + Severity Distribution (right, narrower)",
+        "Third row: Top 10 Counties (left) + Weather Conditions and Heatmap (right, stacked)",
+        "Bottom row: Monthly Accident Trend (full width)",
+        "Grid layout uses Tailwind CSS classes",
+        "Spacing and proportions match Figma analytics.png",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": "This story arranges already-built chart components into the final layout"
+    },
+    {
+      "id": "US-014",
+      "title": "Explorer page — Leaflet map with clustered markers",
+      "description": "As a user, I want an interactive map showing accident locations with marker clustering.",
+      "acceptanceCriteria": [
+        "Leaflet.js map with OpenStreetMap tiles, occupying the main content area",
+        "Map defaults to SF Bay Area view (center: ~37.77, -122.42, zoom: 12)",
+        "Loads map data chunks progressively from `public/data/map/manifest.json` and chunk files",
+        "Shows loading indicator with progress while chunks are loading",
+        "Marker clustering via leaflet.markercluster: clusters at low zoom, individual markers at high zoom",
+        "Marker color reflects severity: green (1), yellow (2), orange (3), red (4)",
+        "Map is pannable and zoomable",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": "Default zoom to SF per user request. Progressive chunk loading with loading indicator."
+    },
+    {
+      "id": "US-015",
+      "title": "Explorer page — left filter sidebar",
+      "description": "As a user, I want a left sidebar with filters to narrow down accidents by date range, severity, and weather.",
+      "acceptanceCriteria": [
+        "Left sidebar with 'Filters' header and collapse/expand toggle",
+        "Date Range section: start date and end date input pickers",
+        "Severity section: checkboxes for levels 1-4 with labels (Minor, Moderate, Serious, Fatal)",
+        "Weather Condition section: checkboxes for common conditions (Clear, Rain, Fog, Snow, Cloudy, etc.)",
+        "Changing any filter updates which markers are visible on the map",
+        "Sidebar matches Figma explorer.png layout",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-016",
+      "title": "Explorer page — accident detail panel (right sidebar)",
+      "description": "As a user, I want to click a map marker and see accident details in a right panel.",
+      "acceptanceCriteria": [
+        "Clicking a marker opens a right-side panel",
+        "Panel shows: Accident Details header, Date & Time, Severity badge, Distance, Description",
+        "Panel shows weather info: Temperature, Humidity, Visibility, Wind Speed",
+        "When no marker is selected, panel shows 'Click on an accident marker to view details' placeholder",
+        "Panel has a close button",
+        "Layout matches Figma explorer_selected.png",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 16,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-017",
+      "title": "Explorer page — timeline slider",
+      "description": "As a user, I want a timeline slider at the bottom of the map to filter accidents by date range.",
+      "acceptanceCriteria": [
+        "Horizontal range slider at bottom of the map area",
+        "Shows start and end date labels",
+        "Dragging slider handles filters which markers are displayed by date",
+        "Slider range covers full dataset date range",
+        "Matches Figma Explorer page bottom bar",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 17,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-018",
+      "title": "About page",
+      "description": "As a user, I want an About page explaining the project, data sources, danger score formula, and team.",
+      "acceptanceCriteria": [
+        "About page renders at /about route",
+        "Project description and purpose section",
+        "Danger score formula explanation with the formula: (S1*N1 + S2*N2 + S3*N3 + S4*N4) / T",
+        "Dataset citation with source links (Kaggle, original papers)",
+        "Team member names: Alexander Nikols, Zoe Long, Andra Bhargav Teja",
+        "Course info: CSC 805, SFSU",
+        "Clean, readable layout with Tailwind styling",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 18,
+      "passes": false,
+      "notes": "User confirmed About page should include danger score formula explanation"
+    }
+  ]
+}
