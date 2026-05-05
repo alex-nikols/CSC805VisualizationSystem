@@ -51,9 +51,9 @@ function WeatherCategory({ category, buckets }) {
 
 function WeatherBar({ bucket, maxCount, color }) {
   return (
-    <div className="flex items-center gap-3 text-sm">
-      <span className="w-28 text-xs text-gray-500 shrink-0 truncate">{bucket.label}</span>
-      <div className="flex-1 bg-gray-100 rounded-full h-4 relative">
+    <div className="flex items-center gap-2 text-sm">
+      <span className="w-24 sm:w-28 text-xs text-gray-500 shrink-0 truncate">{bucket.label}</span>
+      <div className="flex-1 bg-gray-100 rounded-full h-4 relative min-w-0">
         <div
           className="h-4 rounded-full"
           style={{
@@ -63,10 +63,10 @@ function WeatherBar({ bucket, maxCount, color }) {
           }}
         />
       </div>
-      <span className="w-20 text-right text-xs text-gray-600 shrink-0">
+      <span className="hidden sm:inline w-20 text-right text-xs text-gray-600 shrink-0">
         {bucket.count.toLocaleString()}
       </span>
-      <span className="w-12 text-right text-xs text-gray-400 shrink-0">
+      <span className="w-10 sm:w-12 text-right text-xs text-gray-400 shrink-0">
         {bucket.percentage}%
       </span>
     </div>

@@ -13,13 +13,13 @@ export default function About() {
         <section className="bg-white rounded-lg border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Project Overview</h2>
           <p className="text-gray-700 leading-relaxed">
-            This interactive data visualization explores US traffic accident records from 2016 to 2023.
+            This interactive data visualization explores US traffic accident records from 2022.
             Built with React, D3.js, and Leaflet.js, it provides two complementary views:
             an <strong>Explorer</strong> page with an interactive map for geospatial analysis and
             an <strong>Analytics</strong> dashboard summarizing key trends and patterns across the dataset.
           </p>
           <p className="mt-3 text-gray-700 leading-relaxed">
-            The dataset contains approximately 1.76 million accident records covering 49 US states.
+            The dataset contains approximately 1.76 million accident records from 2022, covering 49 US states.
             Records include location, severity, time, weather conditions, and road features.
             Data was pre-processed into static JSON files for fast, client-side rendering without a backend.
           </p>
@@ -52,7 +52,7 @@ export default function About() {
         <section className="bg-white rounded-lg border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Dataset</h2>
           <p className="text-gray-700 leading-relaxed">
-            This project uses the{' '}
+            This project uses the 2022 subset of the{' '}
             <a
               href="https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents"
               target="_blank"

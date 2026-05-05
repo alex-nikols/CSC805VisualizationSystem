@@ -11,7 +11,7 @@ export default function KpiCards() {
   const cards = buildCards(data)
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
       {cards.map((card) => (
         <KpiCard key={card.key} {...card} />
       ))}
@@ -32,7 +32,7 @@ function KpiCard({ iconKey, label, value, subtitle }) {
 
 function KpiSkeleton() {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
       {[...Array(4)].map((_, i) => (
         <div key={i} className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 animate-pulse">
           <div className="h-6 w-6 bg-gray-200 rounded mb-3" />

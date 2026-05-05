@@ -98,6 +98,10 @@ def main():
     visibility_buckets = defaultdict(int)
     wind_speed_buckets = defaultdict(int)
     precipitation_buckets = defaultdict(int)
+    # Weather × severity buckets
+    visibility_severity = defaultdict(lambda: defaultdict(int))
+    wind_speed_severity = defaultdict(lambda: defaultdict(int))
+    precipitation_severity = defaultdict(lambda: defaultdict(int))
 
     # Map sample: reservoir sampling per severity level
     map_reservoirs = {s: [] for s in range(1, 5)}  # severity 1-4
@@ -143,37 +147,43 @@ def main():
                 vis = safe_float(row[COL_VISIBILITY], default=-1)
                 if vis >= 0:
                     if vis < 1:
-                        visibility_buckets["< 1 mi"] += 1
+                        vis_label = "< 1 mi"
                     elif vis < 5:
-                        visibility_buckets["1-5 mi"] += 1
+                        vis_label = "1-5 mi"
                     elif vis < 10:
-                        visibility_buckets["5-10 mi"] += 1
+                        vis_label = "5-10 mi"
                     else:
-                        visibility_buckets["10+ mi"] += 1
+                        vis_label = "10+ mi"
+                    visibility_buckets[vis_label] += 1
+                    visibility_severity[vis_label][severity] += 1
 
                 # Weather: wind speed buckets
                 ws = safe_float(row[COL_WIND_SPEED], default=-1)
                 if ws >= 0:
                     if ws < 5:
-                        wind_speed_buckets["Calm (< 5 mph)"] += 1
+                        ws_label = "Calm (< 5 mph)"
                     elif ws < 15:
-                        wind_speed_buckets["Light (5-15 mph)"] += 1
+                        ws_label = "Light (5-15 mph)"
                     elif ws < 25:
-                        wind_speed_buckets["Moderate (15-25 mph)"] += 1
+                        ws_label = "Moderate (15-25 mph)"
                     else:
-                        wind_speed_buckets["Strong (25+ mph)"] += 1
+                        ws_label = "Strong (25+ mph)"
+                    wind_speed_buckets[ws_label] += 1
+                    wind_speed_severity[ws_label][severity] += 1
 
                 # Weather: precipitation buckets
                 precip = safe_float(row[COL_PRECIPITATION], default=-1)
                 if precip >= 0:
                     if precip == 0:
-                        precipitation_buckets["None (0 in)"] += 1
+                        precip_label = "None (0 in)"
                     elif precip < 0.1:
-                        precipitation_buckets["Light (< 0.1 in)"] += 1
+                        precip_label = "Light (< 0.1 in)"
                     elif precip < 0.5:
-                        precipitation_buckets["Moderate (0.1-0.5 in)"] += 1
+                        precip_label = "Moderate (0.1-0.5 in)"
                     else:
-                        precipitation_buckets["Heavy (0.5+ in)"] += 1
+                        precip_label = "Heavy (0.5+ in)"
+                    precipitation_buckets[precip_label] += 1
+                    precipitation_severity[precip_label][severity] += 1
 
                 # Map sampling: reservoir sample per severity level
                 if 1 <= severity <= 4:
@@ -288,6 +298,32 @@ def main():
                                       "Moderate (0.1-0.5 in)", "Heavy (0.5+ in)"])
     }
 
+    # --- by_weather_severity.json ---
+    def severity_bucket_list(buckets, sev_buckets, order):
+        return [
+            {
+                "label": label,
+                "total": buckets.get(label, 0),
+                "s1": sev_buckets[label].get(1, 0),
+                "s2": sev_buckets[label].get(2, 0),
+                "s3": sev_buckets[label].get(3, 0),
+                "s4": sev_buckets[label].get(4, 0),
+            }
+            for label in order
+        ]
+
+    by_weather_severity = {
+        "visibility": severity_bucket_list(
+            visibility_buckets, visibility_severity,
+            ["< 1 mi", "1-5 mi", "5-10 mi", "10+ mi"]),
+        "windSpeed": severity_bucket_list(
+            wind_speed_buckets, wind_speed_severity,
+            ["Calm (< 5 mph)", "Light (5-15 mph)", "Moderate (15-25 mph)", "Strong (25+ mph)"]),
+        "precipitation": severity_bucket_list(
+            precipitation_buckets, precipitation_severity,
+            ["None (0 in)", "Light (< 0.1 in)", "Moderate (0.1-0.5 in)", "Heavy (0.5+ in)"]),
+    }
+
     # --- by_day_hour.json ---
     DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     by_day_hour = []
@@ -351,6 +387,7 @@ def main():
         ("by_month.json", by_month),
         ("by_county_danger.json", by_county_danger),
         ("by_weather.json", by_weather),
+        ("by_weather_severity.json", by_weather_severity),
         ("by_day_hour.json", by_day_hour),
         ("by_state.json", by_state),
     ]:
